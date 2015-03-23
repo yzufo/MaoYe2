@@ -21,7 +21,13 @@
     [leftButton addTarget:self action:@selector(backToBrandList)forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
     
-    self.navigationItem.leftBarButtonItem = leftItem;
+    UIBarButtonItem *flexSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:self
+                                                                               action:nil];
+    flexSpacer.width = 13;
+    
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:flexSpacer,leftItem, nil,nil]];
+
     // Do any additional setup after loading the view.
 }
 

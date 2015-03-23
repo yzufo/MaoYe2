@@ -24,7 +24,15 @@
     [leftButton addTarget:self action:@selector(backToBrandList)forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
     
-    self.navigationItem.leftBarButtonItem = leftItem;
+    //self.navigationItem.leftBarButtonItem = leftItem;
+    
+    UIBarButtonItem *flexSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:self
+                                                                               action:nil];
+    flexSpacer.width = 13;
+   
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:flexSpacer,leftItem, nil,nil]];
+    
     
     self.goodsDetail = @[@"111",@"222",@"3333",@"444"];
     // Uncomment the following line to preserve selection between presentations.

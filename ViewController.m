@@ -28,6 +28,16 @@
     [super viewDidLoad];
     _lastSelected = 0;
     // Do any additional setup after loading the view, typically from a nib.
+    
+    UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
+    [leftButton setImage:[UIImage imageNamed:@"Left Reveal Icon.png"]forState:UIControlStateNormal];
+    //[leftButton addTarget:self action:@selector(backToBrandList)forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+    
+    self.navigationItem.leftBarButtonItem = leftItem;
+
+    
+    //初始化侧边菜单
     _sideSlipView = [[MYSideSlipView alloc]initWithSender:self];
     _sideSlipView.backgroundColor = [UIColor redColor];
     

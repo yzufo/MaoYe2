@@ -7,8 +7,11 @@
 //
 
 #import "MYItemListTableViewController.h"
+#import "AFNetworking.h"
 
 @interface MYItemListTableViewController ()
+
+@property(strong,nonatomic)NSDictionary *categoryList;
 
 @property(copy,nonatomic) NSArray *itemCatalog;
 
@@ -19,11 +22,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.itemCatalog = @[@"111",@"222",@"3333",@"444"];
+    [self getItemCatalog];
+    NSLog(@"%@",_categoryList);
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+
+
+- (void)getItemCatalog{
+ 
+    NSString  *urlString = @"http://localhost/3.23/getinfo.php";
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+   
+    //2.设置登录参数
+   // NSDictionary *dict = @{ @"":@""};
+    
+    //3.请求
+    [manager POST:urlString parameters:nil success: ^(AFHTTPRequestOperation *operation, id responseObject) {
+        _categoryList = responseObject;
+        [self GetCategoryDetail];
+        [self performSelectorOnMainThread:@selector(updateUI)withObject:nil waitUntilDone:YES];
+        NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
+    } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    
+}
+-(void)updateUI{
+    [self.tableView reloadData];
+}
+-(void)GetCategoryDetail{
+    _itemCatalog = [_categoryList objectForKey:@"Category"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,13 +68,13 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
+
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
+
     // Return the number of rows in the section.
     return [self.itemCatalog count];
 }
@@ -101,5 +135,9 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+
+
 
 @end
