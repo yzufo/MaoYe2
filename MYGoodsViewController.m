@@ -7,8 +7,13 @@
 //
 
 #import "MYGoodsViewController.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface MYGoodsViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *goodsView;
+@property (weak, nonatomic) IBOutlet UILabel *goodsName;
+@property (weak, nonatomic) IBOutlet UILabel *goodsIntroduction;
+@property (weak, nonatomic) IBOutlet UILabel *goodsPrice;
 
 @end
 
@@ -27,7 +32,11 @@
     flexSpacer.width = 13;
     
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:flexSpacer,leftItem, nil,nil]];
-
+    _goodsName.text = _goodDetail.name;
+    _goodsIntroduction.text = _goodDetail.introduction;
+    _goodsPrice.text = _goodDetail.price;
+    [_goodsView setImageWithURL:[NSURL URLWithString:_goodDetail.imagePath]];
+    NSLog(@"%@",_goodDetail.name);
     // Do any additional setup after loading the view.
 }
 

@@ -8,7 +8,9 @@
 
 #import "MYItemDetailTableViewController.h"
 #import "AFNetworking.h"
-#import "MYGoods.h"
+#import "MYGoodsDetailCell.h"
+#import "UIImageView+AFNetworking.h"
+#import "MYGoodsViewController.h"
 
 @interface MYItemDetailTableViewController ()
 
@@ -57,19 +59,33 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     //2.设置登录参数
-    NSDictionary *dict = @{@"content":@"TypeID",@"TypeID":_typeID};
+    //NSDictionary *dict = @{@"content":@"TypeID",@"TypeID":_typeID};
     
     //3.请求
-    [manager POST:urlString parameters:dict success: ^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:urlString parameters:_postString success: ^(AFHTTPRequestOperation *operation, id responseObject) {
         _goodsList = responseObject;
         [self GetGoodsDetail];
         [self performSelectorOnMainThread:@selector(updateUI)withObject:nil waitUntilDone:YES];
-        NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
+        [NSThread currentThread];
+      //  NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
     } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
     
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    MYGoodsViewController *goodsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GoodsViewIndetity"];
+    MYGoodsDetailCell *tmpGoods = [_myGoods objectAtIndex:indexPath.row];
+    goodsVC.goodDetail = tmpGoods;
+    //[[MYItemDetailTableViewController alloc] init];
+    //NSDictionary *dict = @{@"content":@"TypeID",@"TypeID":cell.ID};
+    //itemDetailVC.postString = dict;
+    [self.navigationController pushViewController:goodsVC animated:YES];
+
+}
+
 -(void)GetGoodsDetail{
     NSArray * tmp = [_goodsList objectForKey:@"Goods"];
     
@@ -79,13 +95,15 @@
     {
         NSDictionary *t1 = tmp[i];
         _goodsDetail = [t1 objectForKey:[[NSString alloc]initWithFormat:@"%d",i+1]];
-        MYGoods *tmpGoods = [[MYGoods alloc]init];
+        MYGoodsDetailCell *tmpGoods = [[MYGoodsDetailCell alloc]init];
         tmpGoods.name = _goodsDetail[0];
         tmpGoods.goodsId = _goodsDetail[1];
         tmpGoods.brandID = _goodsDetail[2];
         tmpGoods.imagePath = _goodsDetail[3];
         tmpGoods.price = _goodsDetail[4];
         tmpGoods.introduction = _goodsDetail[5];
+
+        //[tmpGoods.goodsImage setImageWithURL:[NSURL URLWithString:tmpGoods.imagePath]];
         [_myGoods addObject:tmpGoods];
       
     }
@@ -121,13 +139,16 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GoodsDetailCell" forIndexPath:indexPath];
-    MYGoods *tmpGoods = [[MYGoods alloc]init];
-    tmpGoods = [_myGoods objectAtIndex:indexPath.row];
-    cell.textLabel.text = tmpGoods.name;
-    // Configure the cell...
-    
+  
+    MYGoodsDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GoodsDetailCell" forIndexPath:indexPath];
+    MYGoodsDetailCell *tmpGoods = [_myGoods objectAtIndex:indexPath.row];
+    cell.goodsName.text = tmpGoods.name;
+   // cell.goodsImage = tmpGoods.goodsImage;
+    [cell.goodsImage setImageWithURL:[NSURL URLWithString:tmpGoods.imagePath]];
+
     return cell;
+    
+
 }
 
 -(void) viewWillAppear:(BOOL)animated{

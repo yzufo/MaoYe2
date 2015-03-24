@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MYGoodsDetailCell.h"
 
 @interface MYGoodsViewController : UIViewController
+
+@property(strong,nonatomic) MYGoodsDetailCell *goodDetail;
 
 @end

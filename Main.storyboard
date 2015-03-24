@@ -148,18 +148,22 @@
         <scene sceneID="0m0-4S-NR3">
             <objects>
                 <tableViewController storyboardIdentifier="ItemDetailIdentity" id="Cn0-eV-kBX" customClass="MYItemDetailTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="sqT-g3-LDG">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="105" sectionHeaderHeight="22" sectionFooterHeight="22" id="sqT-g3-LDG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="GoodsDetailCell" id="eln-GP-9mD">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="GoodsDetailCell" rowHeight="105" id="eln-GP-9mD" customClass="MYGoodsDetailCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eln-GP-9mD" id="hRj-32-g54">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Edc-0b-DSb">
+                                            <rect key="frame" x="0.0" y="0.0" width="111" height="104"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lalal" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YmT-KL-oMo">
-                                            <rect key="frame" x="139" y="11" width="30" height="21"/>
+                                            <rect key="frame" x="119" y="8" width="106" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -168,7 +172,8 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="Kls-40-Rus" kind="push" id="Aay-NX-nFk"/>
+                                    <outlet property="goodsImage" destination="Edc-0b-DSb" id="jSQ-Ew-LEe"/>
+                                    <outlet property="goodsName" destination="YmT-KL-oMo" id="Li4-eC-qry"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -186,13 +191,31 @@
         <!--Goods View Controller-->
         <scene sceneID="qxd-7o-bac">
             <objects>
-                <viewController id="Kls-40-Rus" customClass="MYGoodsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GoodsViewIndetity" id="Kls-40-Rus" customClass="MYGoodsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bad-h5-bIS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is Goods detail View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QpZ-jh-CmF">
-                                <rect key="frame" x="71" y="254" width="193" height="21"/>
+                                <rect key="frame" x="0.0" y="60" width="193" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="f70-Uc-s6j">
+                                <rect key="frame" x="0.0" y="80" width="320" height="319"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ggG-da-FgH">
+                                <rect key="frame" x="0.0" y="407" width="320" height="94"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WHK-Bc-Xdi">
+                                <rect key="frame" x="262" y="60" width="42" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -202,6 +225,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="VLt-qa-K4v"/>
+                    <connections>
+                        <outlet property="goodsIntroduction" destination="ggG-da-FgH" id="rzC-TB-HJY"/>
+                        <outlet property="goodsName" destination="QpZ-jh-CmF" id="hum-5Y-sZe"/>
+                        <outlet property="goodsPrice" destination="WHK-Bc-Xdi" id="Ouc-pZ-A2q"/>
+                        <outlet property="goodsView" destination="f70-Uc-s6j" id="zuI-2G-qlp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C0m-MN-DIf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -342,6 +371,10 @@
                                 <rect key="frame" x="0.0" y="63" width="320" height="130"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </scrollView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Daa-An-tBt">
+                                <rect key="frame" x="40" y="341" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -362,6 +395,7 @@
                     <connections>
                         <outlet property="pageControl" destination="kHI-ki-ken" id="Wcg-3V-lp3"/>
                         <outlet property="scrollView" destination="geh-gq-fAt" id="Qo3-1G-Ndy"/>
+                        <outlet property="testView" destination="Daa-An-tBt" id="WTj-jf-58u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tyj-Es-yf4" userLabel="First Responder" sceneMemberID="firstResponder"/>

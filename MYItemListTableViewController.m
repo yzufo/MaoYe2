@@ -24,7 +24,7 @@
     [super viewDidLoad];
     self.itemCatalog = @[@"111",@"222",@"3333",@"444"];
     [self getItemCatalog];
-    NSLog(@"%@",_categoryList);
+    //NSLog(@"%@",_categoryList);
     
     _InsertArry = [[NSMutableArray alloc]init];
     _DeleteArry = [[NSMutableArray alloc]init];
@@ -52,7 +52,8 @@
         _categoryList = responseObject;
         [self GetCategoryDetail];
         [self performSelectorOnMainThread:@selector(updateUI)withObject:nil waitUntilDone:YES];
-        NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
+        [NSThread currentThread];
+        //NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
     } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
@@ -79,7 +80,7 @@
             
             MYItemCell *cell = [[MYItemCell alloc]init];
             cell.Name.text = _itemCatalog[j];
-            NSLog(@"%@",cell.Name.text);
+          //  NSLog(@"%@",cell.Name.text);
             j++;
             cell.ID =_itemCatalog[j];
             cell.ChildArray = nil;
@@ -94,7 +95,7 @@
         [_TableArry addObject:cell1];
         
     }
-    NSLog(@"%@",_TableArry);
+    //NSLog(@"%@",_TableArry);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -135,7 +136,7 @@
         
         cell.textLabel.text = tmpcell.Name.text;
         if(tmpcell.ChildArray.count == 0)
-        NSLog(@"%@",tmpcell.Name.text);
+     //   NSLog(@"%@",tmpcell.Name.text);
         if(tmpcell.ChildArray.count == 0){
             cell.textLabel.text = [[NSString alloc] initWithFormat:@"    %@",tmpcell.Name.text];
             cell.accessoryType = 1;
@@ -151,7 +152,8 @@
         MYItemDetailTableViewController *itemDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ItemDetailIdentity"];
         
         //[[MYItemDetailTableViewController alloc] init];
-        itemDetailVC.typeID = cell.ID;
+        NSDictionary *dict = @{@"content":@"TypeID",@"TypeID":cell.ID};
+        itemDetailVC.postString = dict;
         [self.navigationController pushViewController:itemDetailVC animated:YES];
     }else {
         if(!cell.Open)//如果子菜单是关闭的
