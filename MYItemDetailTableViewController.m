@@ -7,10 +7,14 @@
 //
 
 #import "MYItemDetailTableViewController.h"
+#import "AFNetworking.h"
+#import "MYGoods.h"
 
 @interface MYItemDetailTableViewController ()
 
 @property(copy,nonatomic) NSArray *goodsDetail;
+@property(strong,nonatomic) NSDictionary *goodsList;
+@property(strong,nonatomic) NSMutableArray *myGoods;
 
 @end
 
@@ -18,6 +22,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _myGoods = [[NSMutableArray alloc]init];
+    _goodsList = [[NSDictionary alloc]init];
     
     UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
     [leftButton setImage:[UIImage imageNamed:@"Left Reveal Icon.png"]forState:UIControlStateNormal];
@@ -35,11 +42,57 @@
     
     
     self.goodsDetail = @[@"111",@"222",@"3333",@"444"];
+    [self getItemList];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)getItemList{
+    
+    NSString  *urlString = @"http://localhost/3.23/getinfo.php";
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    //2.设置登录参数
+    NSDictionary *dict = @{@"content":@"TypeID",@"TypeID":_typeID};
+    
+    //3.请求
+    [manager POST:urlString parameters:dict success: ^(AFHTTPRequestOperation *operation, id responseObject) {
+        _goodsList = responseObject;
+        [self GetGoodsDetail];
+        [self performSelectorOnMainThread:@selector(updateUI)withObject:nil waitUntilDone:YES];
+        NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
+    } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    
+}
+-(void)GetGoodsDetail{
+    NSArray * tmp = [_goodsList objectForKey:@"Goods"];
+    
+    int dicCount = [tmp count];
+    
+    for(int i=0;i<dicCount;i++)
+    {
+        NSDictionary *t1 = tmp[i];
+        _goodsDetail = [t1 objectForKey:[[NSString alloc]initWithFormat:@"%d",i+1]];
+        MYGoods *tmpGoods = [[MYGoods alloc]init];
+        tmpGoods.name = _goodsDetail[0];
+        tmpGoods.goodsId = _goodsDetail[1];
+        tmpGoods.brandID = _goodsDetail[2];
+        tmpGoods.imagePath = _goodsDetail[3];
+        tmpGoods.price = _goodsDetail[4];
+        tmpGoods.introduction = _goodsDetail[5];
+        [_myGoods addObject:tmpGoods];
+      
+    }
+
+}
+-(void)updateUI{
+    [self.tableView reloadData];
 }
 
 -(void)backToBrandList
@@ -63,13 +116,15 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [self.goodsDetail count];
+    return _myGoods.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GoodsDetailCell" forIndexPath:indexPath];
-    
+    MYGoods *tmpGoods = [[MYGoods alloc]init];
+    tmpGoods = [_myGoods objectAtIndex:indexPath.row];
+    cell.textLabel.text = tmpGoods.name;
     // Configure the cell...
     
     return cell;

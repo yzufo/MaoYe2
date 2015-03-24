@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
@@ -115,7 +115,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="wp7-il-kE7">
-                                            <rect key="frame" x="-1" y="-1" width="866" height="304"/>
+                                            <rect key="frame" x="-1" y="-1" width="1119" height="380"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="brandName" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yHG-0r-3h3">
@@ -144,10 +144,10 @@
             </objects>
             <point key="canvasLocation" x="730" y="-506"/>
         </scene>
-        <!--Catalog List-->
+        <!--Item Detail-->
         <scene sceneID="0m0-4S-NR3">
             <objects>
-                <tableViewController id="Cn0-eV-kBX" customClass="MYItemDetailTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ItemDetailIdentity" id="Cn0-eV-kBX" customClass="MYItemDetailTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="sqT-g3-LDG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -177,7 +177,7 @@
                             <outlet property="delegate" destination="Cn0-eV-kBX" id="TbM-kQ-4JS"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Catalog List" id="PkB-4X-5P6" customClass="MYI"/>
+                    <navigationItem key="navigationItem" title="Item Detail" id="PkB-4X-5P6" customClass="MYI"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LZR-lV-oru" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -232,13 +232,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="CatalogNameCell" id="bZ3-EJ-t0Y">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CatalogNameCell" id="bZ3-EJ-t0Y">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bZ3-EJ-t0Y" id="q9z-bg-kPG">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aji-BL-DpC">
-                                            <rect key="frame" x="96" y="11" width="42" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aji-BL-DpC">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -246,9 +245,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="Cn0-eV-kBX" kind="push" id="nH5-nA-xxI"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -400,7 +396,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="p5l-vS-f9w"/>
-    </inferredMetricsTieBreakers>
 </document>

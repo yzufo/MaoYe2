@@ -10,4 +10,6 @@
 
 @interface MYItemDetailTableViewController : UITableViewController
 
+@property(copy,nonatomic) NSString *typeID;
+
 @end
