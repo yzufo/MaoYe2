@@ -59,6 +59,8 @@
     }];
     
 }
+
+
 -(void)updateUI{
     [self.tableView reloadData];
 }
@@ -66,7 +68,7 @@
     _TableArry = [[NSMutableArray alloc]init];
     NSArray * tmp = [_categoryList objectForKey:@"Category"];
     
-    int dicCount = [tmp count];
+    NSUInteger dicCount = [tmp count];
     
     for(int i=0;i<dicCount;i++)
     {
@@ -75,7 +77,7 @@
         
         NSMutableArray *tableArray = [[NSMutableArray alloc]init];
         
-        int itemCount = [_itemCatalog count];
+        NSUInteger itemCount = [_itemCatalog count];
         for(int j=1;j<itemCount;j++){
             
             MYItemCell *cell = [[MYItemCell alloc]init];
@@ -152,7 +154,7 @@
         MYItemDetailTableViewController *itemDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ItemDetailIdentity"];
         
         //[[MYItemDetailTableViewController alloc] init];
-        NSDictionary *dict = @{@"content":@"TypeID",@"TypeID":cell.ID};
+        NSDictionary *dict = @{@"content":@"TypeID",@"TypeID":cell.ID,@"BrandID":@"*"};
         itemDetailVC.postString = dict;
         [self.navigationController pushViewController:itemDetailVC animated:YES];
     }else {

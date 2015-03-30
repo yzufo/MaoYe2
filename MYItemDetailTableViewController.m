@@ -64,6 +64,7 @@
     //3.请求
     [manager POST:urlString parameters:_postString success: ^(AFHTTPRequestOperation *operation, id responseObject) {
         _goodsList = responseObject;
+        NSLog(@"POST --> %@",responseObject);
         [self GetGoodsDetail];
         [self performSelectorOnMainThread:@selector(updateUI)withObject:nil waitUntilDone:YES];
         [NSThread currentThread];
@@ -88,8 +89,7 @@
 
 -(void)GetGoodsDetail{
     NSArray * tmp = [_goodsList objectForKey:@"Goods"];
-    
-    int dicCount = [tmp count];
+    NSUInteger dicCount = [tmp count];
     
     for(int i=0;i<dicCount;i++)
     {
@@ -102,8 +102,7 @@
         tmpGoods.imagePath = _goodsDetail[3];
         tmpGoods.price = _goodsDetail[4];
         tmpGoods.introduction = _goodsDetail[5];
-
-        //[tmpGoods.goodsImage setImageWithURL:[NSURL URLWithString:tmpGoods.imagePath]];
+        tmpGoods.pic = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:tmpGoods.imagePath]]];
         [_myGoods addObject:tmpGoods];
       
     }
@@ -126,13 +125,13 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
+//#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
+//#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return _myGoods.count;
 }
@@ -143,9 +142,8 @@
     MYGoodsDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GoodsDetailCell" forIndexPath:indexPath];
     MYGoodsDetailCell *tmpGoods = [_myGoods objectAtIndex:indexPath.row];
     cell.goodsName.text = tmpGoods.name;
-   // cell.goodsImage = tmpGoods.goodsImage;
-    [cell.goodsImage setImageWithURL:[NSURL URLWithString:tmpGoods.imagePath]];
 
+    cell.goodsImage.image = tmpGoods.pic;
     return cell;
     
 
