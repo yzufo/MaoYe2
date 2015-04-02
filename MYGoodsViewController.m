@@ -8,6 +8,7 @@
 
 #import "MYGoodsViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "MYFeedBackTableViewController.h"
 
 @interface MYGoodsViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *goodsView;
@@ -49,14 +50,16 @@
     [self.navigationController popViewControllerAnimated:YES];
     
 }
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    MYFeedBackTableViewController *feedBackVC = segue.destinationViewController;
+    feedBackVC.goodsID = _goodDetail.goodsId;
 }
-*/
+
 
 @end
