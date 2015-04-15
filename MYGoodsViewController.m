@@ -9,7 +9,7 @@
 #import "MYGoodsViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "MYFeedBackTableViewController.h"
-
+#import "AFNetworking.h"
 @interface MYGoodsViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *goodsView;
 @property (weak, nonatomic) IBOutlet UILabel *goodsName;
@@ -22,6 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [_wishListSwitch setOn:NO];
     UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
     [leftButton setImage:[UIImage imageNamed:@"Left Reveal Icon.png"]forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(backToBrandList)forControlEvents:UIControlEventTouchUpInside];
@@ -37,8 +38,71 @@
     _goodsIntroduction.text = _goodDetail.introduction;
     _goodsPrice.text = _goodDetail.price;
     [_goodsView setImageWithURL:[NSURL URLWithString:_goodDetail.imagePath]];
-    NSLog(@"%@",_goodDetail.name);
+    NSLog(@"%@",_goodDetail.goodsId);
+    [self getWishList];
     // Do any additional setup after loading the view.
+}
+- (void)getWishList{
+    NSString * username = [[NSString alloc]init];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    username = [defaults objectForKey:@"name_preference"];
+    NSString  *urlString = @"http://localhost/3.23/getinfo.php";
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+ //   manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    NSDictionary *dict = @{@"content":@"SelectWishList",@"UserName":username,@"GoodsID":_goodDetail.goodsId};
+    
+    //3.请求
+    [manager POST:urlString parameters:dict success: ^(AFHTTPRequestOperation *operation, id responseObject) {
+        [NSThread currentThread];
+        [self getResponse:responseObject];
+      //  NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
+    } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+
+-(void)getResponse:(NSDictionary *)response{
+    NSArray * tmp = [[NSArray alloc] init];
+    tmp = [response objectForKey:@"User"];
+    if( tmp.count > 1 ){
+        [_wishListSwitch setOn:YES];
+    }else {
+        [_wishListSwitch setOn:NO];
+        
+    }
+}
+
+- (IBAction)switchChanged:(UISwitch *)sender {
+    NSString * username = [[NSString alloc]init];
+    NSString  *urlString = @"http://localhost/3.23/getinfo.php";
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    username = [defaults objectForKey:@"name_preference"];
+    if(_wishListSwitch.on == YES){
+        NSLog(@"%@----%@",username,_goodDetail.goodsId);
+        
+        //2.设置登录参数
+        NSDictionary *dict = @{@"content":@"InsertWishList",@"UserName":username,@"GoodsID":_goodDetail.goodsId};
+        
+        //3.请求
+        [manager POST:urlString parameters:dict success: ^(AFHTTPRequestOperation *operation, id responseObject) {
+            [NSThread currentThread];
+        } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"%@", error);
+        }];
+        
+    }else{
+        NSDictionary *dict = @{@"content":@"DeleteWishList",@"UserName":username,@"GoodsID":_goodDetail.goodsId};
+        [manager POST:urlString parameters:dict success: ^(AFHTTPRequestOperation *operation, id responseObject) {
+            [NSThread currentThread];
+        } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"%@", error);
+        }];
+        
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

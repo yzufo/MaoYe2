@@ -12,5 +12,6 @@
 @interface MYGoodsViewController : UIViewController
 
 @property(strong,nonatomic) MYGoodsDetailCell *goodDetail;
+@property (weak, nonatomic) IBOutlet UISwitch *wishListSwitch;
 
 @end

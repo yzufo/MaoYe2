@@ -62,6 +62,7 @@
     //NSDictionary *dict = @{@"content":@"TypeID",@"TypeID":_typeID};
     
     //3.请求
+    
     [manager POST:urlString parameters:_postString success: ^(AFHTTPRequestOperation *operation, id responseObject) {
         _goodsList = responseObject;
       //  NSLog(@"POST --> %@",responseObject);
