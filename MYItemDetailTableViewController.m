@@ -43,7 +43,7 @@
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:flexSpacer,leftItem, nil,nil]];
     
     
-    self.goodsDetail = @[@"111",@"222",@"3333",@"444"];
+    NSLog(@"%@",_postString);
     [self getItemList];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -65,7 +65,7 @@
     
     [manager POST:urlString parameters:_postString success: ^(AFHTTPRequestOperation *operation, id responseObject) {
         _goodsList = responseObject;
-      //  NSLog(@"POST --> %@",responseObject);
+        NSLog(@"POST --> %@",responseObject);
         [self GetGoodsDetail];
         [self performSelectorOnMainThread:@selector(updateUI)withObject:nil waitUntilDone:YES];
         [NSThread currentThread];
@@ -78,10 +78,14 @@
 
 
 -(void)GetGoodsDetail{
-    NSArray * tmp = [_goodsList objectForKey:@"Goods"];
+    NSArray *tmp = [[NSArray alloc]init];
+    tmp = [_goodsList objectForKey:@"Goods"];
+
     NSUInteger dicCount = [tmp count];
-    
-    for(int i=0;i<dicCount;i++)
+    int k=0;
+    if([_wish isEqualToString:@"wish"])
+        k=1;
+    for(int i=k;i<dicCount;i++)
     {
         NSDictionary *t1 = tmp[i];
         _goodsDetail = [t1 objectForKey:[[NSString alloc]initWithFormat:@"%d",i+1]];

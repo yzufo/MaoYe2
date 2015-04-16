@@ -12,4 +12,5 @@
 
 
 @property(strong,nonatomic) NSDictionary *postString;
+@property(strong,nonatomic) NSString *wish;
 @end

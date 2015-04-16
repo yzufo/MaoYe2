@@ -126,6 +126,9 @@
                                 <state key="normal" title="View Wish List">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="Cn0-eV-kBX" kind="push" id="Zol-DJ-0M7"/>
+                                </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sLm-0E-q2E">
                                 <rect key="frame" x="27" y="400" width="48" height="30"/>
@@ -587,7 +590,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="saleCell" rowHeight="172" id="BrA-uY-peN" customClass="MYSaleCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="172"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="172"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BrA-uY-peN" id="OV4-Qc-Bzd">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="171"/>
@@ -689,7 +692,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="SV8-un-Eay" kind="modal" id="hDE-j5-Gv9"/>
+                                    <segue destination="SV8-un-Eay" kind="push" id="SYk-tI-CfS"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -732,4 +735,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="Zol-DJ-0M7"/>
+    </inferredMetricsTieBreakers>
 </document>
