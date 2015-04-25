@@ -5,7 +5,7 @@
 //  Created by 易准 on 15/3/22.
 //  Copyright (c) 2015年 易准. All rights reserved.
 //
-#define SLIP_WIDTH 250
+#define SLIP_WIDTH 200
 
 #import "MYSideSlipView.h"
 #import <Accelerate/Accelerate.h>

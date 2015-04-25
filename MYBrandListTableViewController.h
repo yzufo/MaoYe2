@@ -10,4 +10,6 @@
 
 @interface MYBrandListTableViewController : UITableViewController
 
+@property (strong,nonatomic) NSDictionary *postString;
+
 @end

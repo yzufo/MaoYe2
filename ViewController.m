@@ -48,7 +48,7 @@
         [self pushViewController:indexPath];
         
     }];
-    menu.items = @[@{@"title":@"Home",@"imagename":@"1"},@{@"title":@"Item Catalog",@"imagename":@"2"},@{@"title":@"Brand List",@"imagename":@"3"},@{@"title":@"Sale",@"imagename":@"4"}];
+    menu.items = @[@{@"title":@"主页",@"imagename":@"主页"},@{@"title":@"分类",@"imagename":@"分类"},@{@"title":@"品牌",@"imagename":@"品牌"},@{@"title":@"促销",@"imagename":@"出校"}];
     [_sideSlipView setContentView:menu];
     [self.view addSubview:_sideSlipView];
     

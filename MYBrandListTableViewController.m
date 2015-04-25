@@ -26,15 +26,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
+    [leftButton setImage:[UIImage imageNamed:@"Left Reveal Icon.png"]forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(back)forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+    
+    //self.navigationItem.leftBarButtonItem = leftItem;
+    
+    UIBarButtonItem *flexSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                               target:self
+                                                                               action:nil];
+    flexSpacer.width = 20;
+    
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:flexSpacer,leftItem, nil,nil]];
+
+    
+    
     self.brandNames = @[@"111",@"222",@"3333",@"444"];
     _brandList = [[NSDictionary alloc]init];
     _myBrand = [[NSMutableArray alloc]init];
     [self getBrandList];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+-(void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 - (void)getBrandList{
@@ -45,14 +67,16 @@
     
     //2.设置登录参数
     NSDictionary *dict = @{@"content":@"BrandID"};
-    
+    if (_postString != NULL) {
+        dict = _postString;
+    }
     //3.请求
     [manager POST:urlString parameters:dict success: ^(AFHTTPRequestOperation *operation, id responseObject) {
         _brandList = responseObject;
         [self GetBrandDetail];
         [self performSelectorOnMainThread:@selector(updateUI)withObject:nil waitUntilDone:YES];
         [NSThread currentThread];
-        //  NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
+          NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
     } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
@@ -64,7 +88,7 @@
     
     NSUInteger dicCount = [tmp count];
     
-    for(int i=0;i<dicCount;i++)
+    for(int i=1;i<dicCount;i++)
     {
         NSDictionary *t1 = tmp[i];
         NSArray *brandDetail = [[NSArray alloc]init];

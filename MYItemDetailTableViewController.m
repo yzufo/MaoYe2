@@ -38,7 +38,7 @@
     UIBarButtonItem *flexSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                                                target:self
                                                                                action:nil];
-    flexSpacer.width = 13;
+    flexSpacer.width = 20;
    
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:flexSpacer,leftItem, nil,nil]];
     
@@ -65,7 +65,7 @@
     
     [manager POST:urlString parameters:_postString success: ^(AFHTTPRequestOperation *operation, id responseObject) {
         _goodsList = responseObject;
-        NSLog(@"POST --> %@",responseObject);
+      //  NSLog(@"POST --> %@",responseObject);
         [self GetGoodsDetail];
         [self performSelectorOnMainThread:@selector(updateUI)withObject:nil waitUntilDone:YES];
         [NSThread currentThread];
@@ -82,10 +82,8 @@
     tmp = [_goodsList objectForKey:@"Goods"];
 
     NSUInteger dicCount = [tmp count];
-    int k=0;
-    if([_wish isEqualToString:@"wish"])
-        k=1;
-    for(int i=k;i<dicCount;i++)
+
+    for(int i=1;i<dicCount;i++)
     {
         NSDictionary *t1 = tmp[i];
         _goodsDetail = [t1 objectForKey:[[NSString alloc]initWithFormat:@"%d",i+1]];
