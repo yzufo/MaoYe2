@@ -70,12 +70,16 @@
     }
     if (_lastSelected == 0) {
         [self.homePageVC.view removeFromSuperview];
+        _homePageVC = nil;
     }else if (_lastSelected == 1){
         [self.itemListTableVC.view removeFromSuperview];
+        _itemListTableVC = nil;
     }else if (_lastSelected == 2){
         [self.brandListTableVC.view removeFromSuperview];
+        _brandListTableVC = nil;
     }else if (_lastSelected == 3){
         [self.saleTableVC.view removeFromSuperview];
+        _saleTableVC = nil;
     }
     if(indexPath.row == 0){
         _lastSelected = 0;

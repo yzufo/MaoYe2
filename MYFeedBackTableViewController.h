@@ -11,5 +11,7 @@
 @interface MYFeedBackTableViewController : UITableViewController
 
 @property(strong,nonatomic) NSString *goodsID;
-
+@property (weak, nonatomic) IBOutlet UIButton *pushButton;
+@property (weak, nonatomic) IBOutlet UILabel *feedbackTime;
+@property (strong,nonatomic) NSString *backMark;
 @end

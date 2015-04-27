@@ -29,13 +29,31 @@
     _InsertArry = [[NSMutableArray alloc]init];
     _DeleteArry = [[NSMutableArray alloc]init];
     
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(RefreshViewControlEventValueChanged:) forControlEvents:UIControlEventValueChanged];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+- (void)RefreshViewControlEventValueChanged:(id)sender{
+    
+    if (self.refreshControl.refreshing) {
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"刷新中"];
+        
+        [self performSelector:@selector(handleData) withObject:nil afterDelay:0.5];
+    }
+}
 
+-(void)handleData{
+    NSLog(@"refreshed");
+    [self.refreshControl endRefreshing];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新"];
+    _TableArry = [[NSMutableArray alloc]init];
+    [self getItemCatalog];
+}
 
 
 - (void)getItemCatalog{

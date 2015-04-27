@@ -16,4 +16,7 @@
 @property (strong,nonatomic) NSString *fDuser;
 @property (strong,nonatomic) NSString *fDuserID;
 @property (strong,nonatomic) NSString *fDFeedBackID;
+@property (strong,nonatomic) NSString *fDTime;
+@property (weak, nonatomic) IBOutlet UILabel *feedbackTime;
+
 @end

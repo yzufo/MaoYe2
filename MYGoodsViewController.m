@@ -19,6 +19,7 @@
 @property (strong,nonatomic) UILabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *goodsPrice;
 @property (weak, nonatomic) NSString *account;
+@property (strong,nonatomic) NSString *userID;
 @end
 
 @implementation MYGoodsViewController
@@ -66,7 +67,7 @@
     [manager POST:urlString parameters:dict success: ^(AFHTTPRequestOperation *operation, id responseObject) {
         [NSThread currentThread];
         [self getResponse:responseObject];
-        //  NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
+        NSLog(@"POST --> %@, %@", responseObject, [NSThread currentThread]); //自动返回主线程
     } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
     }];

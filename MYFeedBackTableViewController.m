@@ -9,11 +9,14 @@
 #import "MYFeedBackTableViewController.h"
 #import "AFNetworking.h"
 #import "MYFeedBackCell.h"
+#import "SlidingViewManager.h"
+#import "MYADDFeedbackViewController.h"
 
 @interface MYFeedBackTableViewController ()
 
 @property(strong,nonatomic) NSDictionary *feedBackList;
 @property(strong,nonatomic) NSMutableArray *myFeedBack;
+@property (strong,nonatomic) UILabel *subtitleLabel;
 
 @end
 
@@ -35,6 +38,7 @@
     
     _feedBackList = [[NSDictionary alloc]init];
     _myFeedBack = [[NSMutableArray alloc]init];
+    
     [self getFeedBAckList];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -42,8 +46,60 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *account = [[NSString alloc]init];
+    account = [defaults objectForKey:@"name_preference"];
+    if([account isEqualToString:@""])
+    {
+        _pushButton.hidden = YES;
+        [self showAlrt:@"请登陆后发表评论！" red:0/255.0 green:0/255.0 blue:255/255.0];
+        
+    }else{
+        _pushButton.hidden = NO;
+    }
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(RefreshViewControlEventValueChanged:back:) forControlEvents:UIControlEventValueChanged];
+}
+- (void)RefreshViewControlEventValueChanged:(id)sender back:(BOOL)back{
+    
+    if (self.refreshControl.refreshing || back == YES) {
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"刷新中"];
+        
+        [self performSelector:@selector(handleData) withObject:nil afterDelay:0.5];
+    }
 }
 
+-(void)handleData{
+    NSLog(@"refreshed");
+    [self.refreshControl endRefreshing];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新"];
+    _myFeedBack = [[NSMutableArray alloc]init];
+    [self getFeedBAckList];
+}
+
+-(void)subtitleInit{
+    
+    _subtitleLabel = [[UILabel alloc] init];
+    _subtitleLabel.backgroundColor = [UIColor clearColor];
+    _subtitleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20.f];
+    _subtitleLabel.textColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1.f];
+    _subtitleLabel.textAlignment = NSTextAlignmentLeft;
+    _subtitleLabel.numberOfLines = 0;
+    _subtitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _subtitleLabel.frame = CGRectMake(10,10,300,30);
+    
+}
+
+-(void)showAlrt:(NSString *)showString red:(float)red green:(float)green blue:(float)blue{
+    
+    UIView *notificationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
+    notificationView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
+    _subtitleLabel.text = showString;
+    [notificationView addSubview:_subtitleLabel];
+    SlidingViewManager *svm = [[SlidingViewManager alloc] initWithInnerView:notificationView containerView:self.view];
+    [svm slideViewIn];
+    
+}
 - (void)getFeedBAckList{
     
     NSString  *urlString = @"http://localhost/3.23/getinfo.php";
@@ -70,7 +126,8 @@
 -(void)GetFeedBackDetail{
     NSArray * tmp = [_feedBackList objectForKey:@"FeedBack"];
     NSUInteger dicCount = [tmp count];
-    
+    NSDateFormatter *date=[[NSDateFormatter alloc] init];
+    [date setDateFormat:@"yyyy-MM-dd HH:mm:ss.s"];
     for(int i=1;i<dicCount;i++)
     {
         NSDictionary *t1 = tmp[i];
@@ -81,6 +138,8 @@
         tmpFD.fDcontent = _fDDetail[1];
         tmpFD.fDuserID = _fDDetail[2];
         tmpFD.fDFeedBackID = _fDDetail[3];
+        NSDate *d=[date dateFromString:_fDDetail[4]];
+        tmpFD.fDTime = [date stringFromDate:d];
         [_myFeedBack addObject:tmpFD];
         
     }
@@ -125,9 +184,14 @@
     MYFeedBackCell *tmp = [_myFeedBack objectAtIndex:indexPath.row];
     cell.fDContent.text = tmp.fDcontent;
     cell.fDUser.text = tmp.fDuser;
+    cell.feedbackTime.text = tmp.fDTime;
     // Configure the cell...
     
     return cell;
+}
+-(void)viewDidAppear:(BOOL)animated{
+    if(![_backMark isEqualToString:@""])
+      [self RefreshViewControlEventValueChanged:NULL back:YES];
 }
 
 
@@ -165,14 +229,16 @@
  }
  */
 
-/*
+
  #pragma mark - Navigation
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+     MYADDFeedbackViewController *addFeedbackVC = segue.destinationViewController;
+     addFeedbackVC.goodsID = _goodsID;
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
  }
- */
+
 
 @end
