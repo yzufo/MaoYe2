@@ -11,6 +11,7 @@
 @interface MYSaleDetail : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *proName;
 @property (weak, nonatomic) IBOutlet UILabel *proDetail;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (weak, nonatomic) IBOutlet UIImageView *proImage;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationSwitch;
 @property (strong,nonatomic) MYSaleCell *myPro;

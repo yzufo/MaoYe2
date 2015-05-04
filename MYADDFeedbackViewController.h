@@ -16,8 +16,13 @@
 @end
 
 @interface MYADDFeedbackViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *notewrite;
+@property (weak, nonatomic) IBOutlet UILabel *lackword;
+@property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UITextView *feedbackField;
 @property(nonatomic,assign) id<PropagateDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UILabel *wordCount;
 @property (strong,nonatomic) NSString *goodsID;
+@property (strong,nonatomic) NSString *fdview;
+@property (strong,nonatomic) NSString *userName;
 @end

@@ -234,8 +234,20 @@
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+     
+     
      MYADDFeedbackViewController *addFeedbackVC = segue.destinationViewController;
-     addFeedbackVC.goodsID = _goodsID;
+     if ([segue.identifier isEqualToString:@"writeFeedback"]){
+         addFeedbackVC.goodsID = _goodsID;
+         addFeedbackVC.fdview = @"";
+     }
+         else{
+             NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+             MYFeedBackCell *cell = [_myFeedBack objectAtIndex:indexPath.row];
+             addFeedbackVC.fdview = cell.fDcontent;
+             addFeedbackVC.userName = cell.fDuser;
+         }
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
  }

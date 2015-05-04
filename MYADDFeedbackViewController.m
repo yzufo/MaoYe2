@@ -19,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _wordCount.text = @"250";
     UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,40,40)];
     [leftButton setImage:[UIImage imageNamed:@"Left Reveal Icon.png"]forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back:)forControlEvents:UIControlEventTouchUpInside];
@@ -34,10 +35,22 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     _account = [[NSString alloc]init];
     _account = [defaults objectForKey:@"name_preference"];
-    if(![_account isEqualToString:@""]){
-        [self getUserID];
+    if([_fdview isEqualToString:@""])
+    {
+        if(![_account isEqualToString:@""]){
+            [self getUserID];
+        }
+    }else{
+        _feedbackField.editable = NO;
+        _submitButton.hidden = YES;
+        _lackword.hidden = YES;
+        _wordCount.hidden = YES;
+        _notewrite.text = _userName;
+        _feedbackField.text = _fdview;
+        
+        
     }
-
+    
     // Do any additional setup after loading the view.
 }
 
@@ -78,7 +91,7 @@
 - (IBAction)back:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
     //此页面已经存在于self.navigationController.viewControllers中,并且是当前页面的前一页面
-  
+    
 }
 - (IBAction)submitFeedback:(UIButton *)sender {
     NSLog(@"%@",_feedbackField.text);
@@ -90,7 +103,7 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-
+    
     //   manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     NSDictionary *dict = @{@"content":@"insertReview",@"Review":_feedbackField.text,@"UserID":_userID,@"goodsID":_goodsID};
     //3.请求
@@ -105,7 +118,7 @@
     } failure: ^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
-
+    
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
@@ -123,13 +136,13 @@
     
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

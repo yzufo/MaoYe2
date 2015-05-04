@@ -8,8 +8,11 @@
 
 #import "MYSaleDetail.h"
 #import "UIImageView+AFNetworking.h"
-@interface MYSaleDetail ()
+#import <ShareSDK/ShareSDK.h>
+#import "SlidingViewManager.h"
 
+@interface MYSaleDetail ()
+@property (strong,nonatomic) UILabel *subtitleLabel;
 @end
 
 @implementation MYSaleDetail
@@ -132,6 +135,65 @@
      //   _brandDetail = [[MYBrandListCell alloc]init];
     }
     return self;
+}
+- (IBAction)pressShareButton:(UIButton *)sender {
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK" ofType:@"png"];
+    
+    //构造分享内容
+    id<ISSContent> publishContent = [ShareSDK content:[[NSString alloc]initWithString:[NSString stringWithFormat:@"茂业百货最新促销活动：%@！大家都来看看呀。",_myPro.proName]]
+                                       defaultContent:@"测试一下"
+                                                image:[ShareSDK imageWithPath:imagePath]
+                                                title:@"ShareSDK"
+                                                  url:@"http://www.mob.com"
+                                          description:@"这是一条测试信息"
+                                            mediaType:SSPublishContentMediaTypeNews];
+    //创建弹出菜单容器
+    id<ISSContainer> container = [ShareSDK container];
+    [container setIPadContainerWithView:sender arrowDirect:UIPopoverArrowDirectionUp];
+    
+    //弹出分享菜单
+    [ShareSDK showShareActionSheet:container
+                         shareList:nil
+                           content:publishContent
+                     statusBarTips:YES
+                       authOptions:nil
+                      shareOptions:nil
+                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+                                
+                                if (state == SSResponseStateSuccess)
+                                {
+                                    NSLog(NSLocalizedString(@"TEXT_ShARE_SUC", @"分享成功"));
+                                    [self showAlrt:@"分享成功" red:0/255.0 green:255/255.0 blue:0/255.0];
+                                }
+                                else if (state == SSResponseStateFail)
+                                {
+
+                                    NSLog(NSLocalizedString(@"TEXT_ShARE_FAI", @"分享失败,错误码:%d,错误描述:%@"), [error errorCode], [error errorDescription]);
+                                    [self showAlrt:@"分享失败！请稍后再试！" red:255/255.0 green:0/255.0 blue:0/255.0];
+                                }
+                            }];
+}
+-(void)subtitleInit{
+    
+    _subtitleLabel = [[UILabel alloc] init];
+    _subtitleLabel.backgroundColor = [UIColor clearColor];
+    _subtitleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:20.f];
+    _subtitleLabel.textColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1.f];
+    _subtitleLabel.textAlignment = NSTextAlignmentLeft;
+    _subtitleLabel.numberOfLines = 0;
+    _subtitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _subtitleLabel.frame = CGRectMake(0,0,300,30);
+    
+}
+-(void)showAlrt:(NSString *)showString red:(float)red green:(float)green blue:(float)blue{
+    
+    UIView *notificationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
+    notificationView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1];
+    _subtitleLabel.text = showString;
+    [notificationView addSubview:_subtitleLabel];
+    SlidingViewManager *svm = [[SlidingViewManager alloc] initWithInnerView:notificationView containerView:self.view];
+    [svm slideViewIn];
+    
 }
 /*
 #pragma mark - Navigation

@@ -7,6 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import <ShareSDK/ShareSDK.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import "WXApi.h"
+#import "WeiboApi.h"
+#import "WeiboSDK.h"
+
 
 @interface AppDelegate ()
 
@@ -22,8 +29,51 @@
     }else{
         [[UIApplication sharedApplication]registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound  categories:nil]];
     }
+    
+    //2. 初始化社交平台
+    [self initializePlat];
 
     return YES;
+}
+- (void)initializePlat
+{
+    [ShareSDK registerApp:@"7171c0a084eb"];
+    //微博
+    [ShareSDK connectSinaWeiboWithAppKey:@"850833193"
+                               appSecret:@"4197455ccce21a136c79bde779749ad3"
+                             redirectUri:@"http://weibo.com/u/1434752993"];
+    
+    [ShareSDK connectWeChatWithAppId:@"wx4868b35061f87885"   //微信APPID
+                           appSecret:@"64020361b8ec4c99936c0e3999a9f249"  //微信APPSecret
+                           wechatCls:[WXApi class]];
+    //连接短信分享
+    [ShareSDK connectSMS];
+    //连接邮件
+    [ShareSDK connectMail];
+    //连接打印
+    [ShareSDK connectAirPrint];
+    //连接拷贝
+    [ShareSDK connectCopy];
+    
+}
+
+
+- (BOOL)application:(UIApplication *)application
+      handleOpenURL:(NSURL *)url
+{
+    return [ShareSDK handleOpenURL:url
+                        wxDelegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [ShareSDK handleOpenURL:url
+                 sourceApplication:sourceApplication
+                        annotation:annotation
+                        wxDelegate:self];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
